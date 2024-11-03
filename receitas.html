@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+    <!-- Inclusão do CSS do Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body onload="preencheCatalogo()">
+    <div class="container-fluid bg-warning">
+        <h1 class="text-center my-4">Catálogo de Receitas</h1>
+        <!-- Div principal para apresentação das receitas -->
+        <div id="pnlCatalogo" class="d-flex flex-wrap justify-content-center"></div>
+    </div>
+
+    <script>
+        // Vetor de receitas em formato json
+        const receitas = [
+    {
+        titulo: "Bolo de Chocolate",
+        imagem: "imagens/bolo-chocolate.png",
+        preparo: "Misture os ingredientes e asse por 30 minutos.",
+        ingredientes: ["2 xícaras de farinha", "1 xícara de açúcar", "1 xícara de leite", "3 ovos", "1 xícara de chocolate em pó"]
+    },
+    {
+        titulo: "Torta de Limão",
+        imagem: "imagens/torta-de-limao.png",
+        preparo: "Prepare a massa, recheie e leve à geladeira por 2 horas.",
+        ingredientes: ["1 pacote de biscoito", "1 lata de leite condensado", "Suco de 2 limões", "Raspas de limão para decorar"]
+    },
+    {
+        titulo: "Salada Caesar",
+        imagem: "imagens/salada-caesar.png",
+        preparo: "Misture todos os ingredientes e adicione o molho Caesar.",
+        ingredientes: ["1 alface americana", "100g de croutons", "50g de parmesão", "Molho Caesar a gosto"]
+    }
+];
+
+        // Função para gerar a lista de ingredientes em HTML
+        function getListaIngredientes(receita) {
+            return `
+                <ul>
+                    ${receita.ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).reduce((html, li) => html + li, '')}
+                </ul>
+            `;
+        }
+
+        // Função para criar o card de uma receita
+        function getCard(receita) {
+            return `
+                <div class="card" style="width: 250px;">
+                    <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                    <div class="card-body">
+                        <h5 class="card-title">${receita.titulo}</h5>
+                        <div class="card-text">
+                            ${getListaIngredientes(receita)}
+                            <hr>
+                            <p>${receita.preparo}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função para preencher o catálogo com os cards das receitas
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById("pnlCatalogo");
+            pnlCatalogo.innerHTML = receitas.map(receita => getCard(receita)).reduce((html, card) => html + card, "");
+        }
+    </script>
+</body>
+</html>

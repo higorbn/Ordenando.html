@@ -1,0 +1,100 @@
+
+Copiar código
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenação com JavaScript</title>
+    <!-- Inclui o script ordenando.js -->
+    <script src="ordenando.js" defer></script>
+</head>
+<body>
+    <h1>Ordenação de Valores</h1>
+
+    <!-- Campo de entrada numérico -->
+    <input type="number" id="valor" placeholder="Digite um número">
+
+    <!-- Botão para adicionar valor -->
+    <button onclick="add()">Adicionar</button>
+
+    <!-- Campo de seleção para escolher o tipo de ordenação -->
+    <select id="metodoOrdenacao">
+        <option value="bubble" selected>Bubble Sort</option>
+        <option value="selection">Selection Sort</option>
+        <option value="quick">Quick Sort</option>
+    </select>
+
+    <!-- Botões para ordenar e misturar -->
+    <button onclick="ordenar()">Ordenar</button>
+    <button onclick="misturar()">Misturar</button>
+
+    <!-- Lista de valores -->
+    <ul id="valores"></ul>
+
+    <!-- Definição das funções no estilo clássico -->
+    <script>
+        function add() {
+            // Captura o campo de entrada e a lista
+            const valorInput = document.getElementById("valor");
+            const listaValores = document.getElementById("valores");
+
+            // Cria um novo item (li) com o valor do campo de entrada
+            const node = document.createElement("li");
+            const textoNode = document.createTextNode(valorInput.value);
+            node.appendChild(textoNode);
+
+            // Adiciona o novo item à lista
+            listaValores.appendChild(node);
+
+            // Limpa o campo de entrada após adicionar o valor
+            valorInput.value = "";
+        }
+
+        function ordenar() {
+            // Captura a lista de valores e o campo de seleção
+            const listaValores = document.getElementById("valores");
+            const metodoOrdenacao = document.getElementById("metodoOrdenacao");
+
+            // Cria um vetor com os valores da lista convertidos para inteiros
+            let valoresArray = Array.from(listaValores.children)
+                .map(item => parseInt(item.innerHTML));
+
+            // Escolhe o algoritmo de ordenação com base no valor selecionado
+            switch (metodoOrdenacao.selectedIndex) {
+                case 0:
+                    bubble_sort(valoresArray);
+                    break;
+                case 1:
+                    selection_sort(valoresArray);
+                    break;
+                case 2:
+                    quick_sort(valoresArray, 0, valoresArray.length - 1);
+                    break;
+            }
+
+            // Atualiza a lista HTML com os valores ordenados
+            listaValores.innerHTML = valoresArray
+                .map(valor => `<li>${valor}</li>`)
+                .reduce((html, li) => html + li, "");
+        }
+
+        function misturar() {
+            // Captura a lista de valores
+            const listaValores = document.getElementById("valores");
+
+            // Cria um vetor com os valores da lista convertidos para inteiros
+            let valoresArray = Array.from(listaValores.children)
+                .map(item => parseInt(item.innerHTML));
+
+            // Embaralha o vetor usando a função shuffle
+            shuffle(valoresArray, valoresArray.length);
+
+            // Atualiza a lista HTML com os valores embaralhados
+            listaValores.innerHTML = valoresArray
+                .map(valor => `<li>${valor}</li>`)
+                .reduce((html, li) => html + li, "");
+        }
+    </script>
+</body>
+</html>
